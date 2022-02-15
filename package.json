@@ -1,0 +1,33 @@
+{
+  "name": "yarugo",
+  "version": "1.0.0",
+  "description": "The Yarugo word game source package.",
+  "main": "index.js",
+  "author": "JonGoldberg",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.8.3",
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "emotion-theming": "^11.0.0",
+    "framer-motion": "^6.2.4",
+    "next": "^12.0.10",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "swr": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.15",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.5"
+  }
+}
