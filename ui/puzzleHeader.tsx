@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Spacer,
   Text,
 } from "@chakra-ui/react";
 
@@ -20,6 +21,7 @@ export default function PuzzleHeader(props: {
         <Box>
             <Text fontSize="3xl" fontWeight="bold" margin={4}>Yarugo {props.puzzleDate}</Text>
         </Box>
+        <Spacer />
         <Box margin={3}>
             <Popover>
                 <PopoverTrigger>

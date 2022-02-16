@@ -1,19 +1,22 @@
-import {CloseButton, Divider, Flex, Spacer, Text} from "@chakra-ui/react";
+import {Divider, Grid, GridItem, Text} from "@chakra-ui/react";
+import {DeleteIcon} from "@chakra-ui/icons";
 
 export default function WordList(props: {
   words: string[],
   onRemoveWord: (word: string) => void,
 }) {
   return (
-    <Flex flexDirection="column">
-        <Text fontSize="2xl" fontWeight="bold">Your words</Text>
-        <Divider  />
+    <Grid templateColumns="1fr">
+        <GridItem w="100%">
+            <Text fontSize="2xl" fontWeight="bold">Your words</Text>
+            <Divider  />
+        </GridItem>
         {props.words.map((word, index) => {
           return (
             <RemovableWord key={index} word={word} onDelete={props.onRemoveWord} />
           );
         })}
-    </Flex>
+    </Grid>
   );
 }
 
@@ -22,10 +25,13 @@ function RemovableWord(props: {
   onDelete: (word: string) => void,
 }) {
   return (
-    <Flex flexDirection="row">
-        <Text fontSize="3xl">{props.word}</Text>
-        <Spacer />
-        <CloseButton onClick={() => { props.onDelete(props.word) }}/>
-    </Flex>
+    <Grid templateColumns="1fr 9fr">
+        <GridItem>
+            <DeleteIcon onClick={() => { props.onDelete(props.word) }}/>
+        </GridItem>
+        <GridItem>
+            <Text fontSize="3xl">{props.word}</Text>
+        </GridItem>
+    </Grid>
   );
 }

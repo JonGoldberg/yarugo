@@ -22,6 +22,7 @@ export default function LetterButton(props: LetterButtonProps) {
   const toast = useToast();
   return (
     <Flex
+      width="100%"
       as="button"
       bg={BG_COLORS[props.useCount]}
       color="white"

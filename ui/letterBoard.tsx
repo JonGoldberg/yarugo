@@ -1,7 +1,16 @@
-import {Alert, AlertTitle, createStandaloneToast, Flex, Text} from "@chakra-ui/react";
-import ControlBoard from "./controlBoard";
-import LetterGrid from "./letterGrid";
+import {ArrowLeftIcon, CheckIcon} from "@chakra-ui/icons";
+import BestDisplay from "./best";
+import {
+  Button,
+  createStandaloneToast,
+  Grid,
+  GridItem,
+} from "@chakra-ui/react";
+import {computeClickCounts} from "../util/letters";
+import {computeScoreFromWordList} from "../util/scoring";
+import LetterButton from "./letter";
 import React from "react";
+import ScoreDisplay from "./score";
 import WordDisplay from "./wordDisplay";
 import WordList from "./wordList";
 import dictionary from "../lib/data/words.json";
@@ -14,6 +23,7 @@ type LetterBoardState = {
   enteredWords: string[],
   activeWord: string,
   clickCounts: {[key: string]: number},
+  bestWords: string[],
 };
 
 class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
@@ -28,6 +38,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       clickCounts: {},
       enteredWords: [],
       activeWord: '',
+      bestWords: [],
     };
   }
 
@@ -39,29 +50,62 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       : this.state.activeWord;
 
     return (
-      <Flex flexDirection="row">
-          <Flex flexDirection="column">
-              <LetterGrid
-                board={this.props.board}
-                clickCounts={this.state.clickCounts}
-                onLetterClick={(ch) => this.handleLetterClick(ch)}
-                isGameComplete={this.isGameComplete()}
-              />
-              <WordDisplay word={activeWordOrSuccess} highlight={isComplete} />
-              <ControlBoard
-                isComplete={isComplete}
-                clickCounts={this.state.clickCounts}
-                totalWordsUsed={this.state.enteredWords.length}
-                onEnterClick={() => this.handleEnter()}
-                onDeleteClick={() => this.handleDeleteLetter()} />
-          </Flex>
-          <Flex>
+      <Grid templateColumns="3fr 2fr" gap={3}>
+          <GridItem>
+              <Grid templateColumns="1fr 1fr 1fr" gap={3} w="100%">
+                  {this.props.board.split('').map((ch, index) => {
+                    return (
+                      <GridItem w="100%">
+                          <LetterButton
+                            key={index}
+                            letter={ch}
+                            useCount={this.state.clickCounts[ch] || 0}
+                            isGameComplete={isComplete}
+                            onClick={(ch) => this.handleLetterClick(ch)}
+                          />
+                      </GridItem>
+                    );
+                  })}
+
+                  <GridItem colSpan={2}>
+                      <WordDisplay word={activeWordOrSuccess} highlight={isComplete} />
+                  </GridItem>
+                  <GridItem h="100%">
+                      <Grid templateColumns="1fr 1fr" gap={2} h="100%">
+                          <GridItem textAlign="center">
+                              <Button h="100%" onClick={() => this.handleDeleteLetter()}>
+                                  <ArrowLeftIcon />
+                              </Button>
+                          </GridItem>
+                          <GridItem textAlign="center">
+                              <Button h="100%" onClick={() => this.handleEnter()}>
+                                  <CheckIcon />
+                              </Button>
+                          </GridItem>
+                      </Grid>
+                  </GridItem>
+
+                  <GridItem colSpan={2} w="100%" h="100%" textAlign="center">
+                      <ScoreDisplay
+                        isComplete={isComplete}
+                        totalWordsUsed={this.state.enteredWords.length}
+                        clickCounts={this.state.clickCounts}
+                      />
+                  </GridItem>
+                  <GridItem w="100%" h="100%" textAlign="right">
+                      <BestDisplay
+                        words={this.state.bestWords}
+                      />
+                  </GridItem>
+              </Grid>
+          </GridItem>
+          <GridItem>
               <WordList
                 words={this.state.enteredWords}
                 onRemoveWord={(removed: string) => this.handleRemoveWord(removed)}
               />
-          </Flex>
-      </Flex>
+          </GridItem>
+      </Grid>
     );
   }
 
@@ -82,10 +126,20 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
         if (isNewWord) {
           const newEnteredWords = [...this.state.enteredWords, word];
           const clickCounts = computeClickCounts(newEnteredWords, '');
+          const isComplete = Object.keys(clickCounts).length == 9;
+          var bestWords = this.state.bestWords;
+          if (isComplete) {
+            const prevBestScore = computeScoreFromWordList(this.state.bestWords);
+            const currScore = computeScoreFromWordList(newEnteredWords);
+            if (currScore > prevBestScore) {
+              bestWords = newEnteredWords;
+            }
+          }
           this.setState({
             activeWord: '',
             clickCounts,
             enteredWords: newEnteredWords,
+            bestWords,
           });
         } else {
           const clickCounts = computeClickCounts(this.state.enteredWords, '');
@@ -139,21 +193,6 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
     return Object.keys(this.state.clickCounts).length == 9 && this.state.activeWord.length == 0;
   }
 };
-
-function computeClickCounts(enteredWords: string[], activeWord: string) {
-  var clickCounts = {};
-  for (const word of enteredWords) {
-    addLetterCounts(clickCounts, word);
-  }
-  addLetterCounts(clickCounts, activeWord);
-  return clickCounts;
-}
-
-function addLetterCounts(counter: {[key: string]: number}, word: string) {
-  for (const ch of word) {
-    counter[ch] = (counter[ch] || 0) + 1;
-  }
-}
 
 /**
  * Return a sassy string for the number of times they guessed the same word.

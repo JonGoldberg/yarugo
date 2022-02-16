@@ -7,7 +7,7 @@ export default function WordDisplay(props: {
   const color = props.highlight ? "green" : "black";
   return (
     <Center>
-        <Text fontSize="3xl" color={color} fontWeight="bold">{props.word || "-"}</Text>
+        <Text fontSize="5xl" color={color} fontWeight="bold">{props.word || "-"}</Text>
     </Center>
   );
 }
