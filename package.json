@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "build-dictionary": "ts-node util/processDictionary"
+    "build-dictionary": "ts-node bin/processDictionary"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.5",
