@@ -53,7 +53,7 @@ function getScoreTooltip(
 
 const SCORE_COLORS = [
   {threshold: 90, color: "green"},
-  {threshold: 80, color: "khaki"},
+  {threshold: 80, color: "orange"},
   {threshold: 70, color: "salmon"},
   {threshold: 60, color: "red"},
 ];
