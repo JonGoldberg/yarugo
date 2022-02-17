@@ -13,7 +13,7 @@ import React from "react";
 import ScoreDisplay from "./score";
 import WordDisplay from "./wordDisplay";
 import WordList from "./wordList";
-import dictionary from "../lib/data/words.json";
+import dictionary from "../data/words/words.json";
 
 type LetterBoardProps = {
   board: string,
