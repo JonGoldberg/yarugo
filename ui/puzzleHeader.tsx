@@ -35,7 +35,7 @@ export default function PuzzleHeader(props: {
                     <PopoverBody>
                         <p>Use every letter in the grid by creating words.</p>
                         <br/>
-                        <p>Get your grade up by using as few words as possible and by using each letter as few times as possible.</p>
+                        <p>Get your grade up by using as few words as possible and by using each letter as few times as possible. Every puzzle has at least one <em>yarugo</em> -- a nine letter word that covers the entire grid.</p>
                     </PopoverBody>
                 </PopoverContent>
             </Popover>
