@@ -86,25 +86,25 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
                           <CheckIcon />
                       </Button>
                   </GridItem>
-
-                  <GridItem colSpan={2} w="100%" h="100%" textAlign="center">
-                      <ScoreDisplay
-                        isComplete={isComplete}
-                        totalWordsUsed={this.state.enteredWords.length}
-                        clickCounts={this.state.clickCounts}
-                      />
-                  </GridItem>
-                  <GridItem w="100%" h="100%" textAlign="right">
-                      <BestDisplay
-                        words={this.state.bestWords}
-                      />
-                  </GridItem>
               </Grid>
           </GridItem>
           <GridItem>
               <WordList
                 words={this.state.enteredWords}
                 onRemoveWord={(removed: string) => this.handleRemoveWord(removed)}
+              />
+          </GridItem>
+
+          <GridItem w="100%" h="100%" textAlign="center">
+              <ScoreDisplay
+                isComplete={isComplete}
+                totalWordsUsed={this.state.enteredWords.length}
+                clickCounts={this.state.clickCounts}
+              />
+          </GridItem>
+          <GridItem w="100%" h="100%" textAlign="right">
+              <BestDisplay
+                words={this.state.bestWords}
               />
           </GridItem>
       </Grid>
