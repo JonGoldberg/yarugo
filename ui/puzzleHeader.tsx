@@ -1,7 +1,7 @@
 import {
-  Box,
   Button,
-  Flex,
+  Grid,
+  GridItem,
   Link,
   Popover,
   PopoverArrow,
@@ -10,7 +10,6 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-  Spacer,
   Text,
 } from "@chakra-ui/react";
 
@@ -20,12 +19,11 @@ export default function PuzzleHeader(props: {
   yesterdaysYarugos: string[],
 }) {
   return (
-    <Flex flexDirection="row">
-        <Box>
-            <Text fontSize="3xl" fontWeight="bold" margin={4}>Yarugo {props.puzzleDate}</Text>
-        </Box>
-        <Spacer />
-        <Box margin={3}>
+    <Grid templateColumns="2fr 1fr 1fr 1fr" gap={1} margin={2}>
+        <GridItem>
+            <Text fontSize="2xl" fontWeight="bold" margin={2}>Yarugo</Text>
+        </GridItem>
+        <GridItem>
             <Popover>
                 <PopoverTrigger>
                     <Button>Help</Button>
@@ -41,8 +39,8 @@ export default function PuzzleHeader(props: {
                     </PopoverBody>
                 </PopoverContent>
             </Popover>
-        </Box>
-        <Box margin={3}>
+        </GridItem>
+        <GridItem>
             <Popover>
                 <PopoverTrigger>
                     <Button>About</Button>
@@ -60,8 +58,8 @@ export default function PuzzleHeader(props: {
                     </PopoverBody>
                 </PopoverContent>
             </Popover>
-        </Box>
-        <Box margin={3}>
+        </GridItem>
+        <GridItem>
             <Popover>
                 <PopoverTrigger>
                     <Button>Yesterday</Button>
@@ -82,7 +80,10 @@ export default function PuzzleHeader(props: {
                     </PopoverBody>
                 </PopoverContent>
             </Popover>
-        </Box>
-    </Flex>
+        </GridItem>
+        <GridItem colSpan={4}>
+            <Text fontSize="md" fontWeight="bold" align="center">{props.puzzleDate}</Text>
+        </GridItem>
+    </Grid>
   );
 }

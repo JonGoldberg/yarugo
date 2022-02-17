@@ -50,9 +50,9 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       : this.state.activeWord;
 
     return (
-      <Grid templateColumns="3fr 2fr" gap={3}>
+      <Grid templateColumns="3fr 2fr" gap={1} margin={2}>
           <GridItem>
-              <Grid templateColumns="1fr 1fr 1fr" gap={3} w="100%">
+              <Grid templateColumns="1fr 1fr 1fr" gap={1} w="100%">
                   {this.props.board.split('').map((ch, index) => {
                     return (
                       <GridItem w="100%">
@@ -67,22 +67,24 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
                     );
                   })}
 
-                  <GridItem colSpan={2}>
+                  <GridItem colSpan={2} rowSpan={2}>
                       <WordDisplay word={activeWordOrSuccess} highlight={isComplete} />
                   </GridItem>
-                  <GridItem h="100%">
-                      <Grid templateColumns="1fr 1fr" gap={2} h="100%">
-                          <GridItem textAlign="center">
-                              <Button h="100%" onClick={() => this.handleDeleteLetter()}>
-                                  <ArrowLeftIcon />
-                              </Button>
-                          </GridItem>
-                          <GridItem textAlign="center">
-                              <Button h="100%" onClick={() => this.handleEnter()}>
-                                  <CheckIcon />
-                              </Button>
-                          </GridItem>
-                      </Grid>
+                  <GridItem textAlign="center">
+                      <Button h="100%"
+                              onClick={() => this.handleDeleteLetter()}
+                              title="Delete"
+                      >
+                          <ArrowLeftIcon />
+                      </Button>
+                  </GridItem>
+                  <GridItem textAlign="center">
+                      <Button h="100%"
+                              onClick={() => this.handleEnter()}
+                              title="Enter"
+                      >
+                          <CheckIcon />
+                      </Button>
                   </GridItem>
 
                   <GridItem colSpan={2} w="100%" h="100%" textAlign="center">

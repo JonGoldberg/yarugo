@@ -8,7 +8,7 @@ export default function WordList(props: {
   return (
     <Grid templateColumns="1fr">
         <GridItem w="100%">
-            <Text fontSize="2xl" fontWeight="bold">Your words</Text>
+            <Text fontSize="xl" fontWeight="bold">Your words</Text>
             <Divider  />
         </GridItem>
         {props.words.map((word, index) => {
@@ -30,7 +30,7 @@ function RemovableWord(props: {
             <DeleteIcon onClick={() => { props.onDelete(props.word) }}/>
         </GridItem>
         <GridItem>
-            <Text fontSize="3xl">{props.word}</Text>
+            <Text fontSize="2xl">{props.word}</Text>
         </GridItem>
     </Grid>
   );
