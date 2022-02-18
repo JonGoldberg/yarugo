@@ -10,7 +10,7 @@ import {computeClickCounts} from "../util/letters";
 import {computeScoreFromWordList} from "../util/scoring";
 import LetterButton from "./letter";
 import React from "react";
-import ScoreDisplay from "./score";
+import SuccessModal from "./success";
 import WordDisplay from "./wordDisplay";
 import WordList from "./wordList";
 import dictionary from "../data/words/words.json";
@@ -24,6 +24,7 @@ type LetterBoardState = {
   activeWord: string,
   clickCounts: {[key: string]: number},
   bestWords: string[],
+  isSuccessOpen: boolean,
 };
 
 class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
@@ -95,18 +96,19 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
               />
           </GridItem>
 
-          <GridItem w="100%" h="100%" textAlign="center">
-              <ScoreDisplay
-                isComplete={isComplete}
-                totalWordsUsed={this.state.enteredWords.length}
-                clickCounts={this.state.clickCounts}
-              />
-          </GridItem>
-          <GridItem w="100%" h="100%" textAlign="right">
+          <GridItem w="100%" h="100%" colSpan={2}>
               <BestDisplay
                 words={this.state.bestWords}
               />
           </GridItem>
+
+          <SuccessModal
+            totalWordsUsed={this.state.enteredWords.length}
+            clickCounts={this.state.clickCounts}
+            words={this.state.enteredWords}
+            isOpen={this.state.isSuccessOpen}
+            onClose={() => this.handleSuccessModalClosed()}
+          />
       </Grid>
     );
   }
@@ -142,6 +144,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
             clickCounts,
             enteredWords: newEnteredWords,
             bestWords,
+            isSuccessOpen: isComplete,
           });
         } else {
           const clickCounts = computeClickCounts(this.state.enteredWords, '');
@@ -188,6 +191,12 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
     this.setState({
       enteredWords: newEnteredWords,
       clickCounts: computeClickCounts(newEnteredWords, this.state.activeWord),
+    });
+  }
+
+  handleSuccessModalClosed() {
+    this.setState({
+      isSuccessOpen: false,
     });
   }
 
