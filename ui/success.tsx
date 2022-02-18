@@ -1,3 +1,4 @@
+import {computeClickCounts} from "../util/letters";
 import {
   Grid,
   GridItem,
@@ -12,12 +13,13 @@ import {
 import ScoreDisplay from "./score";
 
 export default function SuccessModal(props: {
-  totalWordsUsed: number,
-  clickCounts: {[key: string]: number},
   words: string[],
   isOpen: boolean,
   onClose: () => void,
 }) {
+  const totalWordsUsed = props.words.length;
+  const clickCounts = computeClickCounts(props.words, '');
+
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose} isCentered>
         <ModalOverlay />
@@ -30,13 +32,13 @@ export default function SuccessModal(props: {
             <ModalBody>
                 <Grid templateColumns="1fr 1fr">
                     <GridItem textAlign="center">
-                        <Text fontSize="2xl">Your score:</Text>
+                        <Text fontSize="2xl">Your best so far:</Text>
                     </GridItem>
                     <GridItem w="100%" h="100%" textAlign="center">
                         <ScoreDisplay
                           isComplete={true}
-                          totalWordsUsed={props.totalWordsUsed}
-                          clickCounts={props.clickCounts}
+                          totalWordsUsed={totalWordsUsed}
+                          clickCounts={clickCounts}
                         />
                     </GridItem>
                     <GridItem colSpan={2}>

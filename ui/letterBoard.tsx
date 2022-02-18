@@ -57,9 +57,10 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
               <Grid templateColumns="1fr 1fr 1fr" gap={1} w="100%">
                   {this.props.board.split('').map((ch, index) => {
                     return (
-                      <GridItem w="100%">
+                      <GridItem w="100%"
+                                key={index}
+                      >
                           <LetterButton
-                            key={index}
                             letter={ch}
                             useCount={this.state.clickCounts[ch] || 0}
                             isGameComplete={isComplete}
@@ -107,9 +108,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
           </GridItem>
 
           <SuccessModal
-            totalWordsUsed={this.state.enteredWords.length}
-            clickCounts={this.state.clickCounts}
-            words={this.state.enteredWords}
+            words={this.state.bestWords}
             isOpen={this.state.isSuccessOpen}
             onClose={() => this.handleSuccessModalClosed()}
           />
