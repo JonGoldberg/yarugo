@@ -40,6 +40,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       enteredWords: [],
       activeWord: '',
       bestWords: [],
+      isSuccessOpen: false,
     };
   }
 
