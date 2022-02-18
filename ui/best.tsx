@@ -3,6 +3,7 @@ import {Grid, GridItem, Image, Text} from "@chakra-ui/react";
 
 export default function BestDisplay(props: {
   words: string[],
+  onClick: () => void,
 }) {
   if (props.words.length == 0) {
     return (
@@ -12,7 +13,7 @@ export default function BestDisplay(props: {
   const score = computeScoreFromWordList(props.words);
   const grade = computeGradeString(score);
   return (
-    <Grid templateColumns="1fr 1fr 2fr">
+    <Grid templateColumns="1fr 1fr 2fr" onClick={props.onClick}>
         <GridItem>
             <Image src="/images/todays-best.png" alt="Today's best" h="100%" />
         </GridItem>

@@ -100,6 +100,9 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
           <GridItem w="100%" h="100%" colSpan={2}>
               <BestDisplay
                 words={this.state.bestWords}
+                onClick={() => {
+                  this.setState({isSuccessOpen: true});
+                }}
               />
           </GridItem>
 
