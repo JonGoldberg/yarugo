@@ -18,6 +18,7 @@ export default function PuzzleHeader(props: {
   yesterdaysBoard: string,
   yesterdaysYarugos: string[],
 }) {
+  const yesterdayLetters = props.yesterdaysBoard.split("").sort().join("");
   return (
     <Grid templateColumns="2fr 1fr 1fr 1fr" gap={1} margin={2}>
         <GridItem>
@@ -71,7 +72,7 @@ export default function PuzzleHeader(props: {
                     <PopoverBody>
                         <p>
                             <Text fontSize="2xl">Board: </Text>
-                            <Text fontSize="2xl" fontWeight="bold">{props.yesterdaysBoard}</Text>
+                            <Text fontSize="2xl" fontWeight="bold">{yesterdayLetters}</Text>
                         </p>
                         <p>
                             <Text fontSize="2xl">Yarugos: </Text>
