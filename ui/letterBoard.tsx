@@ -54,10 +54,10 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
     return (
       <Grid templateColumns="3fr 2fr" gap={1} margin={2}>
           <GridItem>
-              <Grid templateColumns="1fr 1fr 1fr" gap={1} w="100%">
+              <Grid templateColumns="1fr 1fr 1fr" gap={1}>
                   {this.props.board.split('').map((ch, index) => {
                     return (
-                      <GridItem w="100%"
+                      <GridItem
                                 key={index}
                       >
                           <LetterButton
