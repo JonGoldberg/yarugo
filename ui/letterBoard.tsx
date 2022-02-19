@@ -1,4 +1,4 @@
-import {ArrowLeftIcon, CheckIcon} from "@chakra-ui/icons";
+import {ArrowLeftIcon, CheckIcon, RepeatIcon} from "@chakra-ui/icons";
 import BestDisplay from "./best";
 import {
   Button,
@@ -6,7 +6,7 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import {computeClickCounts} from "../util/letters";
+import {computeClickCounts, shuffleString} from "../util/letters";
 import {computeScoreFromWordList} from "../util/scoring";
 import LetterButton from "./letter";
 import React from "react";
@@ -23,6 +23,7 @@ type LetterBoardState = {
   enteredWords: string[],
   activeWord: string,
   clickCounts: {[key: string]: number},
+  currentBoard: string,
   bestWords: string[],
   isSuccessOpen: boolean,
 };
@@ -36,6 +37,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
     this.wordSet = new Set(dictionary);
     this.invalidGuesses = {};
     this.state = {
+      currentBoard: this.props.board,
       clickCounts: {},
       enteredWords: [],
       activeWord: '',
@@ -55,7 +57,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       <Grid templateColumns="3fr 2fr" gap={1} margin={2}>
           <GridItem>
               <Grid templateColumns="1fr 1fr 1fr" gap={1}>
-                  {this.props.board.split('').map((ch, index) => {
+                  {this.state.currentBoard.split('').map((ch, index) => {
                     return (
                       <GridItem
                                 key={index}
@@ -73,21 +75,32 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
                   <GridItem colSpan={2} rowSpan={2}>
                       <WordDisplay word={activeWordOrSuccess} highlight={isComplete} />
                   </GridItem>
-                  <GridItem textAlign="center">
-                      <Button h="100%"
-                              onClick={() => this.handleDeleteLetter()}
-                              title="Delete"
-                      >
-                          <ArrowLeftIcon />
-                      </Button>
-                  </GridItem>
-                  <GridItem textAlign="center">
-                      <Button h="100%"
-                              onClick={() => this.handleEnter()}
-                              title="Enter"
-                      >
-                          <CheckIcon />
-                      </Button>
+                  <GridItem rowSpan={2}>
+                      <Grid templateColumns="1fr 1fr">
+                          <GridItem textAlign="center">
+                              <Button h="100%"
+                                      onClick={() => this.handleDeleteLetter()}
+                                      title="Delete"
+                              >
+                                  <ArrowLeftIcon />
+                              </Button>
+                          </GridItem>
+                          <GridItem rowSpan="2">
+                              <Button h="100%"
+                                      title="Rotate"
+                                      onClick={() => this.handleRotate()}>
+                                  <RepeatIcon />
+                              </Button>
+                          </GridItem>
+                          <GridItem textAlign="center">
+                              <Button h="100%"
+                                      onClick={() => this.handleEnter()}
+                                      title="Enter"
+                              >
+                                  <CheckIcon />
+                              </Button>
+                          </GridItem>
+                      </Grid>
                   </GridItem>
               </Grid>
           </GridItem>
@@ -187,6 +200,13 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
         clickCounts: computeClickCounts(this.state.enteredWords, newActiveWord),
       });
     }
+  }
+
+  handleRotate() {
+    const newCurrentBoard = shuffleString(this.state.currentBoard);
+    this.setState({
+      currentBoard: newCurrentBoard,
+    });
   }
 
   handleRemoveWord(removed: string) {

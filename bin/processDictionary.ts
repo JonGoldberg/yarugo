@@ -10,6 +10,7 @@
 const {createReadStream, createWriteStream, writeFileSync} = require("fs");
 const {createInterface} = require("readline");
 const {hideBin} = require("yargs/helpers");
+const {shuffle, shuffleString} = require("../util/letters");
 const yargs = require("yargs");
 const yarugoWords = require("../data/words/customWords.json");
 
@@ -20,21 +21,6 @@ const yarugoWords = require("../data/words/customWords.json");
  */
 function isLegalWord(word: string) {
   return /^[a-z]+$/.test(word);
-}
-
-function shuffle(array: any[]) {
-  for (var i = array.length-1; i > 0; i--) {
-    // Pick a random destination for the ith element.
-    const j = Math.floor(Math.random() * (i+1));
-
-    // Swap the two elements.
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-function shuffleString(str: string) {
-  return shuffle(str.split("")).join("");
 }
 
 class WordTracker {

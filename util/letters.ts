@@ -22,3 +22,18 @@ export function countDuplicateLetters(clickCounts: {[key: string]: number}) {
   }
   return duplicateLetterCount;
 }
+
+export function shuffle(array: any[]) {
+  for (var i = array.length-1; i > 0; i--) {
+    // Pick a random destination for the ith element.
+    const j = Math.floor(Math.random() * (i+1));
+
+    // Swap the two elements.
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+export function shuffleString(str: string) {
+  return shuffle(str.split("")).join("");
+}
