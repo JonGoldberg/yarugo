@@ -72,35 +72,31 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
                     );
                   })}
 
-                  <GridItem colSpan={2} rowSpan={2}>
-                      <WordDisplay word={activeWordOrSuccess} highlight={isComplete} />
+                  <GridItem textAlign="center">
+                      <Button h="100%"
+                              onClick={() => this.handleDeleteLetter()}
+                              title="Delete"
+                      >
+                          <ArrowLeftIcon />
+                      </Button>
                   </GridItem>
-                  <GridItem rowSpan={2}>
-                      <Grid templateColumns="1fr 1fr">
-                          <GridItem textAlign="center">
-                              <Button h="100%"
-                                      onClick={() => this.handleDeleteLetter()}
-                                      title="Delete"
-                              >
-                                  <ArrowLeftIcon />
-                              </Button>
-                          </GridItem>
-                          <GridItem rowSpan={2}>
-                              <Button h="100%"
-                                      onClick={() => this.handleEnter()}
-                                      title="Enter"
-                              >
-                                  <CheckIcon />
-                              </Button>
-                          </GridItem>
-                          <GridItem textAlign="center">
-                              <Button h="100%"
-                                      title="Rotate"
-                                      onClick={() => this.handleRotate()}>
-                                  <RepeatIcon />
-                              </Button>
-                          </GridItem>
-                      </Grid>
+                  <GridItem textAlign="center">
+                      <Button h="100%"
+                              title="Rotate"
+                              onClick={() => this.handleRotate()}>
+                          <RepeatIcon />
+                      </Button>
+                  </GridItem>
+                  <GridItem textAlign="center">
+                      <Button h="100%"
+                              onClick={() => this.handleEnter()}
+                              title="Enter"
+                      >
+                          <CheckIcon />
+                      </Button>
+                  </GridItem>
+                  <GridItem colSpan={3} rowSpan={1}>
+                      <WordDisplay word={activeWordOrSuccess} highlight={isComplete} />
                   </GridItem>
               </Grid>
           </GridItem>
