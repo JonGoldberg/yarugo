@@ -85,19 +85,19 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
                                   <ArrowLeftIcon />
                               </Button>
                           </GridItem>
-                          <GridItem rowSpan="2">
-                              <Button h="100%"
-                                      title="Rotate"
-                                      onClick={() => this.handleRotate()}>
-                                  <RepeatIcon />
-                              </Button>
-                          </GridItem>
-                          <GridItem textAlign="center">
+                          <GridItem rowSpan={2}>
                               <Button h="100%"
                                       onClick={() => this.handleEnter()}
                                       title="Enter"
                               >
                                   <CheckIcon />
+                              </Button>
+                          </GridItem>
+                          <GridItem textAlign="center">
+                              <Button h="100%"
+                                      title="Rotate"
+                                      onClick={() => this.handleRotate()}>
+                                  <RepeatIcon />
                               </Button>
                           </GridItem>
                       </Grid>
