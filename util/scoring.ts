@@ -35,7 +35,7 @@ export function countLetters(wordList: string[]): {[letter: string]: number} {
 export function computeScoreFromWordList(wordList: string[]) {
   var score = 2 * wordList.length;
   for (const word of wordList) {
-    if (word.length == 9) {
+    if (isYarugo(word)) {
       score = score + 9;
     }
   }
@@ -46,6 +46,16 @@ export function computeScoreFromWordList(wordList: string[]) {
   }
 
   return score;
+}
+
+function isYarugo(word: string) {
+  if (word.length == 9) {
+    const letterCounts = countLetters([word]);
+    if (Object.keys(letterCounts).length == 9) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function pointsForCount(count: number) {
