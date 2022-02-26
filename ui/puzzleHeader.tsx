@@ -12,13 +12,14 @@ import {
   PopoverTrigger,
   Text,
 } from "@chakra-ui/react";
+import {Yesterday} from "./yesterday";
 
 export default function PuzzleHeader(props: {
   puzzleDate: string,
+  yesterdaysDate: string,
   yesterdaysBoard: string,
   yesterdaysYarugos: string[],
 }) {
-  const yesterdayLetters = props.yesterdaysBoard.split("").sort().join("");
   return (
     <Grid templateColumns="2fr 1fr 1fr 1fr" gap={1} margin={2}>
         <GridItem>
@@ -63,23 +64,11 @@ export default function PuzzleHeader(props: {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover>
-                <PopoverTrigger>
-                    <Button>Yesterday</Button>
-                </PopoverTrigger>
-                <PopoverContent>
-                    <PopoverArrow />
-                    <PopoverCloseButton />
-                    <PopoverHeader>Yesterday's results</PopoverHeader>
-                    <PopoverBody>
-                            <Text fontSize="2xl">Board: </Text>
-                            <Text fontSize="2xl" fontWeight="bold">{yesterdayLetters}</Text>
-                            <br/>
-                            <Text fontSize="2xl">Yarugos: </Text>
-                            <Text fontSize="2xl" fontWeight="bold">{props.yesterdaysYarugos.join(", ")}</Text>
-                    </PopoverBody>
-                </PopoverContent>
-            </Popover>
+            <Yesterday
+              date={props.yesterdaysDate}
+              board={props.yesterdaysBoard}
+              yarugos={props.yesterdaysYarugos}
+            />
         </GridItem>
         <GridItem colSpan={4}>
             <Text fontSize="md" fontWeight="bold" align="center">{props.puzzleDate}</Text>

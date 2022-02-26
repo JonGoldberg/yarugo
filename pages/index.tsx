@@ -34,6 +34,7 @@ const Puzzle = () => {
         <Flex flexDirection="column">
             <PuzzleHeader
               puzzleDate={boardData.date}
+              yesterdaysDate={boardData.lastBoardDate}
               yesterdaysBoard={boardData.lastBoard.toUpperCase()}
               yesterdaysYarugos={boardData.lastYarugos}
             />

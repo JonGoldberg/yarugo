@@ -9,12 +9,13 @@ const dict: NextApiHandler = (req, res) => {
   const now = Date.now();
   const daysSincePuzzleIndex = Math.floor((now - puzzleIndexDate) / MS_PER_DAY)
   const currPuzzleIndex = currentGame.puzzleIndex + daysSincePuzzleIndex;
-  const currPuzzleDate = new Date(puzzleIndexDate + (daysSincePuzzleIndex * MS_PER_DAY));
-  const currPuzzleDateString = `${currPuzzleDate.getUTCFullYear()}-${pad(currPuzzleDate.getUTCMonth()+1)}-${pad(currPuzzleDate.getUTCDate())}`;
+  const currPuzzleDateString = getDateString(puzzleIndexDate, daysSincePuzzleIndex);
+  const lastPuzzleDateString = getDateString(puzzleIndexDate, daysSincePuzzleIndex-1);
 
   return res.status(200).json({
     date: currPuzzleDateString,
     board: puzzles[currPuzzleIndex][0],
+    lastBoardDate: lastPuzzleDateString,
     lastBoard: puzzles[currPuzzleIndex-1][0],
     lastYarugos: puzzles[currPuzzleIndex-1][1],
   });
@@ -22,6 +23,12 @@ const dict: NextApiHandler = (req, res) => {
 
 function pad(num: number) {
   return String(num).padStart(2, "0");
+}
+
+function getDateString(startDateMs: number, daysAfter: number) {
+  const dateObj = new Date(startDateMs + (daysAfter * MS_PER_DAY));
+  const dateString = `${dateObj.getUTCFullYear()}-${pad(dateObj.getUTCMonth()+1)}-${pad(dateObj.getUTCDate())}`;
+  return dateString;
 }
 
 export default dict;
