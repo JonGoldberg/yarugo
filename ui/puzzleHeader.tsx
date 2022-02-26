@@ -72,14 +72,11 @@ export default function PuzzleHeader(props: {
                     <PopoverCloseButton />
                     <PopoverHeader>Yesterday's results</PopoverHeader>
                     <PopoverBody>
-                        <p>
                             <Text fontSize="2xl">Board: </Text>
                             <Text fontSize="2xl" fontWeight="bold">{yesterdayLetters}</Text>
-                        </p>
-                        <p>
+                            <br/>
                             <Text fontSize="2xl">Yarugos: </Text>
                             <Text fontSize="2xl" fontWeight="bold">{props.yesterdaysYarugos.join(", ")}</Text>
-                        </p>
                     </PopoverBody>
                 </PopoverContent>
             </Popover>

@@ -18,7 +18,7 @@ export default function WordList(props: WordListProps) {
         </GridItem>
         {WORD_LAYOUT.map(wordSpec => {
           return (
-            <GridItem colSpan={wordSpec.colSpan} margin={1}>
+            <GridItem key={`wordbox-${wordSpec.length}`} colSpan={wordSpec.colSpan} margin={1}>
                 <DeleteableWordBox
                   length={wordSpec.length}
                   word={wordsByLength[wordSpec.length]}
@@ -55,9 +55,9 @@ function DeleteableWordBox(props: DeleteableWordBoxProps) {
     <Grid templateColumns="9fr 1fr">
         <GridItem>
             <Grid templateColumns={`repeat(${props.length}, 1fr)`}>
-                {lettersArray.map(letter => {
+                {lettersArray.map((letter, index) => {
                   return (
-                    <GridItem>
+                    <GridItem key={`wordbox-${props.length}-letter-${index}`}>
                         <BoxedLetter letter={letter} />
                     </GridItem>
                   );
