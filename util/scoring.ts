@@ -1,45 +1,61 @@
 import {computeClickCounts, countDuplicateLetters} from "./letters";
 
-export function computeScoreFromWordList(wordList: string[]) {
-  const totalWords = wordList.length;
-  if (totalWords == 0) {
+export function pointsLeftAfterUse(useCount: number) {
+  if (useCount == 0) {
+    return 5;
+  } else if (useCount == 1) {
+    return 3;
+  } else if (useCount == 2) {
+    return 1;
+  } else {
     return 0;
   }
-  const clickCounts = computeClickCounts(wordList, '');
-  const duplicateLetterCount = countDuplicateLetters(clickCounts);
-  return computeScore(totalWords, duplicateLetterCount);
 }
 
-export function computeScore(
-  totalWordsUsed: number,
-  duplicateLetterCount: number,
-) {
-  var score = 100;
+export function countLetters(wordList: string[]): {[letter: string]: number} {
+  const letterCounts = {}
+  wordList.map(word => {
+    word.split("").map(letter => {
+      letterCounts[letter] = letterCounts[letter] + 1 || 1;
+    });
+  });
+  return letterCounts;
+}
 
-  // Take off 10 points for every word past 1.
-  if (totalWordsUsed > 1) {
-    score = score - ((totalWordsUsed - 1) * 10);
+/**
+ * Scoring is as follows:
+ * - 2 points for each word.
+ * - 9 bonus points for a yarugo.
+ * - For each letter used:
+ *   - 5 points for the first use.
+ *   - 3 points for the second use.
+ *   - 1 point for the third use.
+ *   - 0 points after that.
+ */
+export function computeScoreFromWordList(wordList: string[]) {
+  var score = 2 * wordList.length;
+  for (const word of wordList) {
+    if (word.length == 9) {
+      score = score + 9;
+    }
   }
 
-  // Take off 5 points for every extra use of a letter.
-  score = score - (duplicateLetterCount * 5);
+  const letterCounts = countLetters(wordList);
+  for (const count of Object.values(letterCounts)) {
+    score = score + pointsForCount(count);
+  }
+
   return score;
 }
 
-export function computeGradeString(score: number) {
-  if (score == 100) {
-    return 'A+';
-  } else if (score < 60) {
-    return 'F';
+function pointsForCount(count: number) {
+  if (count >= 3) {
+    return 9;
+  } else if (count == 2) {
+    return 8;
+  } else if (count == 1) {
+    return 5;
   } else {
-    const gradeThresholds = {
-      90: 'A',
-      80: 'B',
-      70: 'C',
-      60: 'D',
-    };
-    const majorGrade = gradeThresholds[Math.floor(score/10) * 10];
-    const minorGrade = (score % 10) < 3 ? '-' : (score % 10) > 6 ? '+' : '';
-    return `${majorGrade}${minorGrade}`;
+    return 0;
   }
 }

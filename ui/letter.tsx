@@ -1,8 +1,6 @@
-import {Box, Flex, Spacer, Square, Text, useToast} from "@chakra-ui/react";
+import {Box, Flex, Spacer, Square, Text} from "@chakra-ui/react";
+import {pointsLeftAfterUse} from "../util/scoring";
 import React from "react";
-
-// No letter can be used more than three times.
-const USE_LIMIT = 3;
 
 interface LetterButtonProps {
   letter: string,
@@ -12,19 +10,22 @@ interface LetterButtonProps {
 };
 
 const BG_COLORS = {
-  0: "gray",
-  1: "green",
-  2: "orange",
-  3: "red",
+  0: "green",
+  1: "orange",
+  2: "darkorange",
+  3: "orangered",
 };
 
+function getBackgroundColor(useCount: number) {
+  return BG_COLORS[useCount] || "red";
+}
+
 export default function LetterButton(props: LetterButtonProps) {
-  const toast = useToast();
   return (
     <Flex
       width="100%"
       as="button"
-      bg={BG_COLORS[props.useCount]}
+      bg={getBackgroundColor(props.useCount)}
       color="white"
       borderRadius="md"
       disabled={props.isGameComplete}
@@ -32,32 +33,15 @@ export default function LetterButton(props: LetterButtonProps) {
         background: "yellow",
         color: "teal.500",
       }}
-      onClick={() => {handleLetterClick(props, toast)}}
+      onClick={() => props.onClick(props.letter) }
     >
         <Spacer flex="1" />
         <Square flex="8">
             <Text fontSize="4xl" fontWeight="bold">{props.letter}</Text>
         </Square>
         <Box flex="1">
-            <Text fontSize="sm">{props.useCount}</Text>
+            <Text fontSize="sm">{pointsLeftAfterUse(props.useCount)}</Text>
         </Box>
     </Flex>
   );
-}
-
-function handleLetterClick(props: LetterButtonProps, toast) {
-  if (props.useCount >= USE_LIMIT) {
-    const toastId = 'letter-count-exceeded';
-    if (!toast.isActive(toastId)) {
-      toast({
-        id: toastId,
-        title: `You've used ${props.letter} too many times!`,
-        status: "warning",
-        duration: 3000,
-        position: "top",
-      });
-    }
-  } else {
-    props.onClick(props.letter);
-  }
 }

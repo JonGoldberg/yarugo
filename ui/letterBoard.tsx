@@ -54,7 +54,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       : this.state.activeWord;
 
     return (
-      <Grid templateColumns="3fr 2fr" gap={1} margin={2}>
+      <Grid w="100%" textAlign="center" templateColumns="3fr 2fr" gap={1} margin={2}>
           <GridItem>
               <Grid templateColumns="1fr 1fr 1fr" gap={1}>
                   {this.state.currentBoard.split('').map((ch, index) => {
@@ -133,57 +133,76 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
     });
   }
 
+  checkWordValidity(word: string) : {isValidWord: boolean, invalidWordReason?: string} {
+    // Only allow words of desired lengths.
+    if ([3, 4, 5, 6, 9].indexOf(word.length) == -1) {
+      return {
+        isValidWord: false,
+        invalidWordReason: `Hmph. We aren't looking for ${word.length} letter words.`,
+      };
+    }
+
+    // Only allow words that are in our dictionary.
+    if (! this.wordSet.has(word.toLowerCase())) {
+      const invalidGuessCount = (this.invalidGuesses[word] || 0) + 1;
+      this.invalidGuesses[word] = invalidGuessCount;
+      return {
+        isValidWord: false,
+        invalidWordReason: getInvalidWordString(invalidGuessCount)
+      };
+    }
+
+    // Only allow words of each length to be entered once.
+    const wordsByLength = {};
+    this.state.enteredWords.map(word => wordsByLength[word.length] = word);
+    if (word.length in wordsByLength) {
+      return {
+        isValidWord: false,
+        invalidWordReason: `You already have a word with ${word.length} letters.`,
+      };
+    }
+    return {isValidWord: true};
+  }
+
   handleEnter() {
     const word = this.state.activeWord;
-    if (word.length > 0) {
-      const isValidWord = this.wordSet.has(word.toLowerCase());
-      if (isValidWord) {
-        const isNewWord = this.state.enteredWords.indexOf(word) === -1;
-        if (isNewWord) {
-          const newEnteredWords = [...this.state.enteredWords, word];
-          const clickCounts = computeClickCounts(newEnteredWords, '');
-          const isComplete = Object.keys(clickCounts).length == 9;
-          var bestWords = this.state.bestWords;
-          if (isComplete) {
-            const prevBestScore = computeScoreFromWordList(this.state.bestWords);
-            const currScore = computeScoreFromWordList(newEnteredWords);
-            if (currScore > prevBestScore) {
-              bestWords = newEnteredWords;
-            }
-          }
-          this.setState({
-            activeWord: '',
-            clickCounts,
-            enteredWords: newEnteredWords,
-            bestWords,
-            isSuccessOpen: isComplete,
-          });
-        } else {
-          const clickCounts = computeClickCounts(this.state.enteredWords, '');
-          this.setState({
-            activeWord: '',
-            clickCounts,
-          });
-        }
-      } else {
-        const invalidGuessCount = (this.invalidGuesses[word] || 0) + 1;
-        this.invalidGuesses[word] = invalidGuessCount;
-        this.setState({
-          activeWord: '',
-          clickCounts: computeClickCounts(this.state.enteredWords, ''),
-        });
+    if (word.length == 0) {
+      return;
+    }
 
-        const toastId = 'invalid-word';
-        const toast = createStandaloneToast();
-        if (!toast.isActive(toastId)) {
-          toast({
-            id: toastId,
-            title: getInvalidWordString(invalidGuessCount),
-            status: "warning",
-            duration: 3000,
-            position: "top",
-          });
-        }
+    const {isValidWord, invalidWordReason} = this.checkWordValidity(word);
+    if (isValidWord) {
+      const newEnteredWords = [...this.state.enteredWords, word];
+      const clickCounts = computeClickCounts(newEnteredWords, '');
+      var bestWords = this.state.bestWords;
+      const prevBestScore = computeScoreFromWordList(this.state.bestWords);
+      const currScore = computeScoreFromWordList(newEnteredWords);
+      if (currScore > prevBestScore) {
+        bestWords = newEnteredWords;
+      }
+      this.setState({
+        activeWord: '',
+        clickCounts,
+        enteredWords: newEnteredWords,
+        bestWords,
+        isSuccessOpen: newEnteredWords.length == 5,
+      });
+    } else {
+      this.setState({
+        activeWord: '',
+        clickCounts: computeClickCounts(this.state.enteredWords, ''),
+      });
+
+      const toastId = 'invalid-word';
+      const toast = createStandaloneToast();
+      if (!toast.isActive(toastId)) {
+        toast({
+          id: toastId,
+          title: invalidWordReason,
+          status: "warning",
+          duration: 3000,
+          position: "top",
+        });
       }
     }
   }
@@ -220,7 +239,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
   }
 
   isGameComplete() {
-    return Object.keys(this.state.clickCounts).length == 9 && this.state.activeWord.length == 0;
+    return this.state.enteredWords.length == 5;
   }
 };
 

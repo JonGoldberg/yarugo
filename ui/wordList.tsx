@@ -1,37 +1,104 @@
-import {Divider, Grid, GridItem, Text} from "@chakra-ui/react";
+import {Divider, Grid, GridItem, Square, Text} from "@chakra-ui/react";
 import {DeleteIcon} from "@chakra-ui/icons";
 
-export default function WordList(props: {
-  words: string[],
-  onRemoveWord: (word: string) => void,
-}) {
+interface WordListProps {
+  words: string[];
+  onRemoveWord: (word: string) => void;
+};
+
+export default function WordList(props: WordListProps) {
+  const wordsByLength = {};
+  props.words.map(word => wordsByLength[word.length] = word);
+
   return (
-    <Grid templateColumns="1fr">
-        <GridItem w="100%">
+    <Grid templateColumns="1fr 1ft">
+        <GridItem colSpan={2} margin={1}>
             <Text fontSize="xl" fontWeight="bold">Your words</Text>
             <Divider  />
         </GridItem>
-        {props.words.map((word, index) => {
+        {WORD_LAYOUT.map(wordSpec => {
           return (
-            <RemovableWord key={index} word={word} onDelete={props.onRemoveWord} />
+            <GridItem colSpan={wordSpec.colSpan} margin={1}>
+                <DeleteableWordBox
+                  length={wordSpec.length}
+                  word={wordsByLength[wordSpec.length]}
+                  {...props}
+                />
+            </GridItem>
           );
         })}
     </Grid>
   );
 }
 
-function RemovableWord(props: {
-  word: string,
-  onDelete: (word: string) => void,
-}) {
+
+const WORD_LAYOUT = [
+  { colSpan: 1, length: 3},
+  { colSpan: 1, length: 6},
+  { colSpan: 1, length: 4},
+  { colSpan: 1, length: 5},
+  { colSpan: 2, length: 9},
+];
+
+interface DeleteableWordBoxProps extends WordListProps {
+  length: number;
+  word: string;
+};
+
+// fix layout for single word.
+function DeleteableWordBox(props: DeleteableWordBoxProps) {
+  const paddedWord = props.word || "".padEnd(props.length, " ")
+  const lettersArray = paddedWord.split("");
+  const visibility = props.word ? "visible" : "hidden";
+
   return (
-    <Grid templateColumns="1fr 9fr">
+    <Grid templateColumns="9fr 1fr">
         <GridItem>
-            <DeleteIcon onClick={() => { props.onDelete(props.word) }}/>
+            <Grid templateColumns={`repeat(${props.length}, 1fr)`}>
+                {lettersArray.map(letter => {
+                  return (
+                    <GridItem>
+                        <BoxedLetter letter={letter} />
+                    </GridItem>
+                  );
+                })}
+            </Grid>
         </GridItem>
         <GridItem>
-            <Text fontSize="2xl">{props.word}</Text>
+            <DeleteIcon visibility={visibility} onClick={() => { props.onRemoveWord(paddedWord) }}/>
         </GridItem>
     </Grid>
+  );
+}
+
+function tileBackgroundColor(letter: string) {
+  if (letter == " ") {
+    return "gray";
+  } else {
+    return "green";
+  }
+}
+
+function tileForegroundColor(letter: string) {
+  if (letter == " ") {
+    return "gray";
+  } else {
+    return "white";
+  }
+}
+
+function BoxedLetter(props: {
+  letter: string,
+}) {
+  // Use the letter "W" as a dummy invisible blank letter for spacing.
+  return (
+    <Text
+      borderRadius="md"
+      color={tileForegroundColor(props.letter)}
+      fontSize="lg"
+      fontWeight="bold"
+      bg={tileBackgroundColor(props.letter)}>
+        {props.letter == " " ? "W" : props.letter}
+    </Text>
   );
 }

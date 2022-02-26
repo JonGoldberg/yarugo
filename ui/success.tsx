@@ -25,7 +25,7 @@ export default function SuccessModal(props: {
         <ModalOverlay />
         <ModalContent>
             <ModalHeader>
-                <Text fontSize="3xl" textAlign="center">You did it!</Text>
+                <Text fontSize="3xl" textAlign="center">Score Details</Text>
             </ModalHeader>
             <ModalCloseButton />
 
@@ -35,11 +35,7 @@ export default function SuccessModal(props: {
                         <Text fontSize="2xl">Your best so far:</Text>
                     </GridItem>
                     <GridItem w="100%" h="100%" textAlign="center">
-                        <ScoreDisplay
-                          isComplete={true}
-                          totalWordsUsed={totalWordsUsed}
-                          clickCounts={clickCounts}
-                        />
+                        <ScoreDisplay wordList={props.words} />
                     </GridItem>
                     <GridItem colSpan={2}>
                         <Text textAlign="left" fontSize="2xl">{props.words.join(", ")}</Text>

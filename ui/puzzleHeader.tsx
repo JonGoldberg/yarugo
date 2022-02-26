@@ -34,9 +34,11 @@ export default function PuzzleHeader(props: {
                     <PopoverCloseButton />
                     <PopoverHeader>How to play Yarugo</PopoverHeader>
                     <PopoverBody>
-                        <p>Use every letter in the grid by creating words.</p>
+                        <p>Create a three-, four-, five-, six- and nine-letter word.</p>
                         <br/>
-                        <p>Get your grade up by using as few words as possible and by using each letter as few times as possible. Every puzzle has at least one <em>yarugo</em> -- a nine letter word that covers the entire grid.</p>
+                        <p>Score points by using each letter as few times as possible. Each letter tile shows you how many points you'll get the next time you use that letter.</p>
+                        <br/>
+                        <p>And every puzzle has at least one <em>yarugo</em> -- a nine letter word that covers the entire grid.</p>
                     </PopoverBody>
                 </PopoverContent>
             </Popover>

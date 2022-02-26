@@ -1,19 +1,13 @@
 import {Box, Text, Tooltip} from "@chakra-ui/react";
-import {computeGradeString, computeScore} from "../util/scoring";
-import {countDuplicateLetters} from "../util/letters";
+import {computeScoreFromWordList} from "../util/scoring";
 
 export default function ScoreDisplay(props: {
-  isComplete: boolean,
-  clickCounts: {[key: string]: number},
-  totalWordsUsed: number,
+  wordList: string[]
 }) {
-  const duplicateLetterCount = countDuplicateLetters(props.clickCounts);
-  const score = computeScore(props.totalWordsUsed, duplicateLetterCount);
-
-  const gradeString = props.isComplete ? computeGradeString(score) : 'N/A';
-  const gradeColor = props.isComplete ? getScoreColor(score) : "gray";
+  const score = computeScoreFromWordList(props.wordList);
+  const scoreColor = getScoreColor(score);
   const scoreLabel =
-    getScoreTooltip(props.isComplete, score, props.totalWordsUsed, duplicateLetterCount);
+    getScoreTooltip(props.wordList, score);
   return (
     <Tooltip
       label={scoreLabel}
@@ -28,10 +22,10 @@ export default function ScoreDisplay(props: {
             <Text
               fontSize="3xl"
               fontWeight="bold"
-              color={gradeColor}
+              color={scoreColor}
               padding={3}
             >
-                {gradeString}
+                {score}
             </Text>
         </Box>
     </Tooltip>
@@ -39,15 +33,13 @@ export default function ScoreDisplay(props: {
 }
 
 function getScoreTooltip(
-  isComplete: boolean,
+  wordList: string[],
   score: number,
-  totalWordsUsed: number,
-  duplicateLetterCount: number,
 ) {
-  if (isComplete) {
-    return `Score ${score}: ${totalWordsUsed} words, ${duplicateLetterCount} repeat letters`;
+  if (wordList.length > 0) {
+    return `Score ${score}: ${wordList.length} words used.`;
   } else {
-    return "Use every letter at least once to get your score.";
+    return "Create at least one word to start scoring points.";
   }
 }
 
