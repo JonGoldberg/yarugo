@@ -37,7 +37,10 @@ const Puzzle = () => {
               yesterdaysBoard={boardData.lastBoard.toUpperCase()}
               yesterdaysYarugos={boardData.lastYarugos}
             />
-            <LetterBoard board={boardData.board.toUpperCase()} />
+            <LetterBoard
+              puzzleDate={boardData.date}
+              board={boardData.board.toUpperCase()}
+            />
         </Flex>
     </Center>
   );

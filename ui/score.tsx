@@ -1,13 +1,12 @@
 import {Box, Text, Tooltip} from "@chakra-ui/react";
-import {computeScoreFromWordList} from "../util/scoring";
 
 export default function ScoreDisplay(props: {
-  wordList: string[]
+  score: number,
+  wordList: string[],
 }) {
-  const score = computeScoreFromWordList(props.wordList);
-  const scoreColor = getScoreColor(score);
+  const scoreColor = getScoreColor(props.score);
   const scoreLabel =
-    getScoreTooltip(props.wordList, score);
+    getScoreTooltip(props.wordList, props.score);
   return (
     <Tooltip
       label={scoreLabel}
@@ -25,7 +24,7 @@ export default function ScoreDisplay(props: {
               color={scoreColor}
               padding={3}
             >
-                {score}
+                {props.score}
             </Text>
         </Box>
     </Tooltip>

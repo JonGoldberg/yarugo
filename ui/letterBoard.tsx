@@ -17,6 +17,7 @@ import dictionary from "../data/words/words.json";
 
 type LetterBoardProps = {
   board: string,
+  puzzleDate: string,
 };
 
 type LetterBoardState = {
@@ -54,7 +55,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       : this.state.activeWord;
 
     return (
-      <Grid w="100%" textAlign="center" templateColumns="3fr 2fr" gap={1} margin={2}>
+      <Grid textAlign="center" templateColumns="3fr 2fr" gap={1} margin={2}>
           <GridItem>
               <Grid templateColumns="1fr 1fr 1fr" gap={1}>
                   {this.state.currentBoard.split('').map((ch, index) => {
@@ -107,7 +108,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
               />
           </GridItem>
 
-          <GridItem w="100%" h="100%" colSpan={2}>
+          <GridItem h="100%" colSpan={2}>
               <BestDisplay
                 words={this.state.bestWords}
                 onClick={() => {
@@ -117,6 +118,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
           </GridItem>
 
           <SuccessModal
+            puzzleDate={this.props.puzzleDate}
             words={this.state.bestWords}
             isOpen={this.state.isSuccessOpen}
             onClose={() => this.handleSuccessModalClosed()}
