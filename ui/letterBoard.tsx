@@ -1,3 +1,4 @@
+import {addToHistory, getCurrentPlay, getHistory, setCurrentPlay} from "../store/store";
 import {ArrowLeftIcon, CheckIcon, RepeatIcon} from "@chakra-ui/icons";
 import BestDisplay from "./best";
 import {
@@ -37,10 +38,16 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
     super(props);
     this.wordSet = new Set(dictionary);
     this.invalidGuesses = {};
+    const savedPlayState = getCurrentPlay();
+    const enteredWords =
+      (savedPlayState && savedPlayState.puzzleDateString == props.puzzleDate)
+      ? savedPlayState.activeWords
+      : [];
+    const clickCounts = computeClickCounts(enteredWords, '');
     this.state = {
       currentBoard: this.props.board,
-      clickCounts: {},
-      enteredWords: [],
+      clickCounts,
+      enteredWords,
       activeWord: '',
       bestWords: [],
       isSuccessOpen: false,
@@ -179,8 +186,14 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       var bestWords = this.state.bestWords;
       const prevBestScore = computeScoreFromWordList(this.state.bestWords);
       const currScore = computeScoreFromWordList(newEnteredWords);
+      const newPlayState = {
+        puzzleDateString: this.props.puzzleDate,
+        activeWords: newEnteredWords,
+      };
+      setCurrentPlay(newPlayState);
       if (currScore > prevBestScore) {
         bestWords = newEnteredWords;
+        addToHistory(newPlayState);
       }
       this.setState({
         activeWord: '',
@@ -228,6 +241,10 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
 
   handleRemoveWord(removed: string) {
     const newEnteredWords = this.state.enteredWords.filter(word => word !== removed);
+    setCurrentPlay({
+      puzzleDateString: this.props.puzzleDate,
+      activeWords: newEnteredWords,
+    });
     this.setState({
       enteredWords: newEnteredWords,
       clickCounts: computeClickCounts(newEnteredWords, this.state.activeWord),
