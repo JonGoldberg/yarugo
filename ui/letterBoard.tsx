@@ -1,4 +1,4 @@
-import {addToHistory, getCurrentPlay, setCurrentPlay} from "../store/store";
+import {addToHistory, getCurrentPlay, getHistory, setCurrentPlay} from "../store/store";
 import {ArrowLeftIcon, CheckIcon, RepeatIcon} from "@chakra-ui/icons";
 import BestDisplay from "./best";
 import {
@@ -43,13 +43,18 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       (savedPlayState && savedPlayState.puzzleDateString == props.puzzleDate)
       ? savedPlayState.activeWords
       : [];
+
+    const history = getHistory() || {};
+    const bestWords = history[props.puzzleDate] || [];
+
     const clickCounts = computeClickCounts(enteredWords, '');
+
     this.state = {
       currentBoard: this.props.board,
       clickCounts,
       enteredWords,
       activeWord: '',
-      bestWords: [],
+      bestWords,
       isSuccessOpen: false,
     };
   }
