@@ -1,5 +1,3 @@
-import {computeScoreFromWordList} from "../util/scoring";
-import {EmailIcon} from "@chakra-ui/icons";
 import {
   Button,
   createStandaloneToast,
@@ -14,6 +12,10 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
+import {computeClickCounts} from "../util/letters";
+import {computeScoreFromWordList} from "../util/scoring";
+import {EmailIcon} from "@chakra-ui/icons";
+import {getEmoji} from "./letter";
 import ScoreDisplay from "./score";
 
 export default function SuccessModal(props: {
@@ -50,7 +52,7 @@ export default function SuccessModal(props: {
                         <Button
                           colorScheme="green"
                           h="100%"
-                          onClick={() => handleShareClick(props.puzzleDate, score) }
+                          onClick={() => handleShareClick(props.puzzleDate, score, props.words) }
                         >
                             <Grid templateColumns="2fr 1fr">
                                 <GridItem>
@@ -69,11 +71,22 @@ export default function SuccessModal(props: {
   );
 }
 
-function handleShareClick(puzzleDate: string, score: number) {
+function emojiOrNone(emoji: string) {
+  return emoji || getEmoji(0);
+}
+
+function handleShareClick(puzzleDate: string, score: number, words: string[]) {
   if (navigator.share) {
+    const clickCounts: {[letter: string]: number} = computeClickCounts(words, '');
+    const clickEmoji = Object.values(clickCounts).map(count => getEmoji(count));
+    const emojiLines = [
+      `${emojiOrNone(clickEmoji[0])}${emojiOrNone(clickEmoji[1])}${emojiOrNone(clickEmoji[2])}`,
+      `${emojiOrNone(clickEmoji[3])}${emojiOrNone(clickEmoji[4])}${emojiOrNone(clickEmoji[5])}`,
+      `${emojiOrNone(clickEmoji[6])}${emojiOrNone(clickEmoji[7])}${emojiOrNone(clickEmoji[8])}`,
+    ];
     navigator.share({
       title: "Yarugo",
-      text: `My Yarugo score on ${puzzleDate}: ${score}!`,
+      text: `My Yarugo score on ${puzzleDate}: ${score}!\n${emojiLines.join("\n")}`,
       url: "https://yarugo.com",
     }).then(() => {
       console.log('Share success');

@@ -1,4 +1,7 @@
-export function computeClickCounts(enteredWords: string[], activeWord: string) {
+export function computeClickCounts(
+  enteredWords: string[],
+  activeWord: string): {[letter:string]: number}
+{
   var clickCounts = {};
   for (const word of enteredWords) {
     addLetterCounts(clickCounts, word);

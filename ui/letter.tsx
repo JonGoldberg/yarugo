@@ -9,15 +9,26 @@ interface LetterButtonProps {
   isGameComplete: boolean,
 };
 
-const BG_COLORS = {
+const USE_COLORS = {
   0: "green",
   1: "orange",
   2: "darkorange",
   3: "orangered",
 };
 
-function getBackgroundColor(useCount: number) {
-  return BG_COLORS[useCount] || "red";
+export function getBackgroundColor(useCount: number) {
+  return USE_COLORS[useCount] || "red";
+}
+
+const USE_EMOJI = {
+  0: String.fromCodePoint(0x1F7E5),
+  1: String.fromCodePoint(0x1F7E7),
+  2: String.fromCodePoint(0x1F7E8),
+  3: String.fromCodePoint(0x1F7E9),
+};
+
+export function getEmoji(useCount: number) {
+  return USE_EMOJI[useCount] || USE_EMOJI[3];
 }
 
 export default function LetterButton(props: LetterButtonProps) {
