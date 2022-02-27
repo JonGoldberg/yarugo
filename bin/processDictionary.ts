@@ -93,7 +93,7 @@ async function main() {
     .describe("p", "Filename to which we write the puzzle data as JSON.")
 
     .demandOption(["d", "o", "p"])
-    .argv
+    .argv;
 
   const tracker = await processGenericDictionary(
     argv.genericDict,
