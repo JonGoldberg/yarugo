@@ -67,7 +67,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       : this.state.activeWord;
 
     return (
-      <Grid textAlign="center" templateColumns="3fr 2fr" gap={1} margin={2}>
+      <Grid textAlign="center" templateColumns="2fr 3fr" gap={1} margin={2}>
           <GridItem>
               <Grid templateColumns="1fr 1fr 1fr" gap={1}>
                   {this.state.currentBoard.split('').map((ch, index) => {
