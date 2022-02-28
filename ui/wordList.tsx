@@ -75,7 +75,7 @@ function DeleteableWordBox(props: DeleteableWordBoxProps) {
 
 function tileBackgroundColor(letter: string) {
   if (letter == " ") {
-    return "gray";
+    return "gray.400";
   } else {
     return "green";
   }
@@ -83,7 +83,7 @@ function tileBackgroundColor(letter: string) {
 
 function tileForegroundColor(letter: string) {
   if (letter == " ") {
-    return "gray";
+    return "gray.400";
   } else {
     return "white";
   }

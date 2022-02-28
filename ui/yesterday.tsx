@@ -31,9 +31,9 @@ export function Yesterday(props: YesterdayProps) {
   return (
     <Popover>
         <PopoverTrigger>
-            <Button>Yesterday</Button>
+            <Button colorScheme="green">Yesterday</Button>
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent bgColor="gray.600" color="white">
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>Yesterday's results</PopoverHeader>

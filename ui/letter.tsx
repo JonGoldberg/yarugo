@@ -11,24 +11,28 @@ interface LetterButtonProps {
 
 const USE_COLORS = {
   0: "green",
-  1: "orange",
+  1: "olive",
   2: "darkorange",
-  3: "orangered",
+  3: "red",
 };
 
 export function getBackgroundColor(useCount: number) {
-  return USE_COLORS[useCount] || "red";
+  return "gray.400"; // USE_COLORS[useCount] || "gray";
 }
 
 const USE_EMOJI = {
-  0: String.fromCodePoint(0x1F7E5),
-  1: String.fromCodePoint(0x1F7E7),
-  2: String.fromCodePoint(0x1F7E8),
-  3: String.fromCodePoint(0x1F7E9),
+  0: String.fromCodePoint(0x1F7E5), // Red
+  1: String.fromCodePoint(0x1F7E7), // Orange
+  2: String.fromCodePoint(0x1F7E8), // Yellow
+  3: String.fromCodePoint(0x1F7E9), // Green
 };
 
 export function getEmoji(useCount: number) {
   return USE_EMOJI[useCount] || USE_EMOJI[3];
+}
+
+export function getPointColor(useCount: number) {
+  return USE_COLORS[useCount] || "red";
 }
 
 export default function LetterButton(props: LetterButtonProps) {
@@ -41,8 +45,8 @@ export default function LetterButton(props: LetterButtonProps) {
       borderRadius="md"
       disabled={props.isGameComplete}
       _hover={{
-        background: "yellow",
-        color: "teal.500",
+        background: "gray.600",
+        color: "white",
       }}
       onClick={() => props.onClick(props.letter) }
     >
@@ -50,7 +54,12 @@ export default function LetterButton(props: LetterButtonProps) {
         <Square flex="8">
             <Text fontSize="4xl" fontWeight="bold">{props.letter}</Text>
         </Square>
-        <Box flex="1">
+        <Box
+          flex="1"
+          bg={getPointColor(props.useCount)}
+          borderRadius="sm"
+          padding={1}
+        >
             <Text fontSize="sm">{pointsLeftAfterUse(props.useCount)}</Text>
         </Box>
     </Flex>

@@ -23,14 +23,14 @@ export default function PuzzleHeader(props: {
   return (
     <Grid templateColumns="2fr 1fr 1fr 1fr" gap={1} margin={2}>
         <GridItem>
-            <Text fontSize="2xl" fontWeight="bold" margin={2}>Yarugo</Text>
+            <Text color="white" fontSize="2xl" fontWeight="bold" margin={2}>Yarugo</Text>
         </GridItem>
         <GridItem>
             <Popover>
                 <PopoverTrigger>
-                    <Button>Help</Button>
+                    <Button colorScheme="green">Help</Button>
                 </PopoverTrigger>
-                <PopoverContent>
+                <PopoverContent bgColor="gray.600" color="white">
                     <PopoverArrow />
                     <PopoverCloseButton />
                     <PopoverHeader>How to play Yarugo</PopoverHeader>
@@ -47,9 +47,9 @@ export default function PuzzleHeader(props: {
         <GridItem>
             <Popover>
                 <PopoverTrigger>
-                    <Button>About</Button>
+                    <Button colorScheme="green">About</Button>
                 </PopoverTrigger>
-                <PopoverContent>
+                <PopoverContent bgColor="gray.600" color="white">
                     <PopoverArrow />
                     <PopoverCloseButton />
                     <PopoverHeader>About Yarugo</PopoverHeader>

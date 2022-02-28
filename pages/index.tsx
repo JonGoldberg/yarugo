@@ -30,7 +30,7 @@ const Puzzle = () => {
   }
 
   return (
-    <Center>
+    <Center bgColor="gray.700" color="gray.400">
         <Flex flexDirection="column">
             <PuzzleHeader
               puzzleDate={boardData.date}

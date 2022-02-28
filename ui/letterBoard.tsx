@@ -86,7 +86,8 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
                   })}
 
                   <GridItem textAlign="center">
-                      <Button h="100%"
+                      <Button colorScheme="green"
+                              h="100%"
                               onClick={() => this.handleDeleteLetter()}
                               title="Delete"
                       >
@@ -94,14 +95,16 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
                       </Button>
                   </GridItem>
                   <GridItem textAlign="center">
-                      <Button h="100%"
+                      <Button colorScheme="green"
+                              h="100%"
                               title="Rotate"
                               onClick={() => this.handleRotate()}>
                           <RepeatIcon />
                       </Button>
                   </GridItem>
                   <GridItem textAlign="center">
-                      <Button h="100%"
+                      <Button colorScheme="green"
+                              h="100%"
                               onClick={() => this.handleEnter()}
                               title="Enter"
                       >
