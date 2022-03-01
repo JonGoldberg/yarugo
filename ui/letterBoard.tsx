@@ -123,7 +123,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
               />
           </GridItem>
 
-          <GridItem h="100%" colSpan={2} bgColor="gray.700" color="gray.400">
+          <GridItem colSpan={2}>
               <BestDisplay
                 words={this.state.bestWords}
                 onClick={() => {
