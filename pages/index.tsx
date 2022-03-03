@@ -29,8 +29,18 @@ const Puzzle = () => {
     return <Alert status="info">Loading board...</Alert>;
   }
 
+  // Full-page next.js style from https://gist.github.com/dmurawsky/d45f068097d181c733a53687edce1919
   return (
     <Center bgColor="gray.700" color="gray.400">
+        <style global jsx>{`
+      html,
+      body,
+      body > div:first-child,
+      div#__next,
+      div#__next > div {
+        height: 100%;
+      }
+    `}</style>
         <Flex flexDirection="column">
             <PuzzleHeader
               puzzleDate={boardData.date}
