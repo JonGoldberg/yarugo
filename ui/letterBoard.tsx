@@ -67,7 +67,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
       : this.state.activeWord;
 
     return (
-      <Grid textAlign="center" templateColumns="2fr 3fr" gap={1} margin={2}>
+      <Grid textAlign="center" gap={1} margin={2}>
           <GridItem>
               <Grid templateColumns="1fr 1fr 1fr" gap={1}>
                   {this.state.currentBoard.split('').map((ch, index) => {
@@ -116,6 +116,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
                   </GridItem>
               </Grid>
           </GridItem>
+
           <GridItem>
               <WordList
                 words={this.state.enteredWords}
@@ -123,7 +124,7 @@ class LetterBoard extends React.Component<LetterBoardProps, LetterBoardState> {
               />
           </GridItem>
 
-          <GridItem colSpan={2}>
+          <GridItem>
               <BestDisplay
                 words={this.state.bestWords}
                 onClick={() => {
