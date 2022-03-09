@@ -12,6 +12,7 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
+import {DeleteIcon} from "@chakra-ui/icons";
 import {computeClickCounts} from "../util/letters";
 import {computeScoreFromWordList} from "../util/scoring";
 import {EmailIcon} from "@chakra-ui/icons";
@@ -25,6 +26,7 @@ export default function SuccessModal(props: {
   onClose: () => void,
 }) {
   const score = computeScoreFromWordList(props.words);
+  const improveYourScore = (score < 100) ? improveScoreHint() : null;
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose} isCentered>
         <ModalOverlay />
@@ -45,6 +47,7 @@ export default function SuccessModal(props: {
                     <GridItem colSpan={2}>
                         <Text textAlign="left" fontSize="2xl">{props.words.join(", ")}</Text>
                     </GridItem>
+                    {improveYourScore}
                     <GridItem colSpan={2} padding={3}>
                         <Divider />
                     </GridItem>
@@ -106,4 +109,14 @@ function handleShareClick(puzzleDate: string, score: number, words: string[]) {
         });
       }
   }
+}
+
+function improveScoreHint() {
+  return (
+    <GridItem colSpan={2} padding={3}>
+        <Text fontSize="xl">Hint: you might be able to improve your score by clicking the
+        <DeleteIcon color="darkorange" margin={1} />
+        and finding words that use some letters fewer times.</Text>
+    </GridItem>
+  );
 }

@@ -67,7 +67,11 @@ function DeleteableWordBox(props: DeleteableWordBoxProps) {
             </Grid>
         </GridItem>
         <GridItem>
-            <DeleteIcon visibility={visibility} onClick={() => { props.onRemoveWord(paddedWord) }}/>
+            <DeleteIcon
+              color="darkorange"
+              visibility={visibility}
+              onClick={() => { props.onRemoveWord(paddedWord) }}
+            />
         </GridItem>
     </Grid>
   );
