@@ -51,10 +51,12 @@ export default function SuccessModal(props: {
                     <GridItem colSpan={2} padding={3}>
                         <Divider />
                     </GridItem>
-                    <GridItem colSpan={2} textAlign="center">
+                    <GridItem colSpan={1}>
+                        <Text textAlign="left" fontSize="m">Next Yarugo starts at midnight in San Francisco!</Text>
+                    </GridItem>
+                    <GridItem colSpan={1} textAlign="center">
                         <Button
                           colorScheme="green"
-                          h="100%"
                           onClick={() => handleShareClick(props.puzzleDate, score, props.words) }
                         >
                             <Grid templateColumns="2fr 1fr">

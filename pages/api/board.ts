@@ -5,8 +5,12 @@ import puzzles from "../../data/puzzles.json";
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
 const dict: NextApiHandler = (req, res) => {
+  const westCoastNow = new Date(
+    new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}))
+  const timezoneOffsetMinutes = westCoastNow.getTimezoneOffset();
+
   const puzzleIndexDate = Date.parse(currentGame.puzzleIndexDate);
-  const now = Date.now();
+  const now = Date.now() - (timezoneOffsetMinutes * 1000 * 60);
   const daysSincePuzzleIndex = Math.floor((now - puzzleIndexDate) / MS_PER_DAY)
   const currPuzzleIndex = currentGame.puzzleIndex + daysSincePuzzleIndex;
   const currPuzzleDateString = getDateString(puzzleIndexDate, daysSincePuzzleIndex);
