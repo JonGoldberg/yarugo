@@ -4,31 +4,30 @@ import puzzles from "../../data/puzzles.json";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-const dict: NextApiHandler = (req, res) => {
-  const puzzleIndexDate = Date.parse(currentGame.puzzleIndexDate);
-  const now = Date.now();
-  const daysSincePuzzleIndex = Math.floor((now - puzzleIndexDate) / MS_PER_DAY)
+const board: NextApiHandler = (req, res) => {
+  const todayInSF = getDateString(0);
+  const yesterdayInSF = getDateString(1);
+
+  const daysSincePuzzleIndex = Math.floor(
+    (Date.parse(todayInSF) - Date.parse(currentGame.puzzleIndexDate)) / MS_PER_DAY)
+
   const currPuzzleIndex = currentGame.puzzleIndex + daysSincePuzzleIndex;
-  const currPuzzleDateString = getDateString(puzzleIndexDate, daysSincePuzzleIndex);
-  const lastPuzzleDateString = getDateString(puzzleIndexDate, daysSincePuzzleIndex-1);
 
   return res.status(200).json({
-    date: currPuzzleDateString,
+    date: todayInSF,
     board: puzzles[currPuzzleIndex][0],
-    lastBoardDate: lastPuzzleDateString,
+    lastBoardDate: yesterdayInSF,
     lastBoard: puzzles[currPuzzleIndex-1][0],
     lastYarugos: puzzles[currPuzzleIndex-1][1],
   });
 }
 
-function pad(num: number) {
-  return String(num).padStart(2, "0");
+function getDateString(daysAgo: number) {
+  const mmddyyString = new Date(
+    Date.now() - (daysAgo * MS_PER_DAY))
+    .toLocaleDateString("en-GB", {timeZone: "America/Los_Angeles"});
+  const splits = mmddyyString.split("/");
+  return `${splits[2]}-${splits[1]}-${splits[0]}`;
 }
 
-function getDateString(startDateMs: number, daysAfter: number) {
-  const dateObj = new Date(startDateMs + (daysAfter * MS_PER_DAY));
-  const dateString = `${dateObj.getUTCFullYear()}-${pad(dateObj.getUTCMonth()+1)}-${pad(dateObj.getUTCDate())}`;
-  return dateString;
-}
-
-export default dict;
+export default board;

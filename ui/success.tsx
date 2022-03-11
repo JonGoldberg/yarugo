@@ -52,7 +52,7 @@ export default function SuccessModal(props: {
                         <Divider />
                     </GridItem>
                     <GridItem colSpan={1}>
-                        <Text textAlign="left" fontSize="m">Next Yarugo starts at midnight in London!</Text>
+                        <Text textAlign="left" fontSize="m">Next Yarugo starts at midnight in San Francisco!</Text>
                     </GridItem>
                     <GridItem colSpan={1} textAlign="center">
                         <Button
