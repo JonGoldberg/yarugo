@@ -43,12 +43,19 @@ export default function SuccessModal(props: {
     stats.totalScore = stats.totalScore + dailyScore;
     if (dailyScore >= 80 && dailyScore < 90) {
       stats.eighties = stats.eighties + 1;
-    } else if (dailyScore >= 90 && dailyScore < 99) {
+    } else if (dailyScore >= 90 && dailyScore < 99.1) {
       stats.nineties = stats.nineties + 1;
     } else if (dailyScore > 99) {
       stats.hundred = stats.hundred + 1;
     }
   });
+  const avgScoreRaw = (stats.totalScore / numPlayed) || 0;
+  var avgScore: string;
+  if (avgScoreRaw > 99) {
+    avgScore = avgScoreRaw.toFixed(1);
+  } else {
+    avgScore = String(Math.round(avgScoreRaw));
+  }
 
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose} isCentered>
@@ -83,9 +90,7 @@ export default function SuccessModal(props: {
                                 <Text fontSize="lg">Average:</Text>
                             </GridItem>
                             <GridItem>
-                                <Text fontSize="lg" fontWeight="bold">
-                                    {Math.round(stats.totalScore / numPlayed) || 0}
-                                </Text>
+                                <Text fontSize="lg" fontWeight="bold">{avgScore}</Text>
                             </GridItem>
                             <GridItem>
                                 <Text fontSize="lg">80-89:</Text>
