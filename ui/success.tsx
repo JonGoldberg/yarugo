@@ -17,6 +17,7 @@ import {computeClickCounts} from "../util/letters";
 import {computeScoreFromWordList} from "../util/scoring";
 import {EmailIcon} from "@chakra-ui/icons";
 import {getEmoji} from "./letter";
+import {getHistory} from "../store/store";
 import ScoreDisplay from "./score";
 
 export default function SuccessModal(props: {
@@ -27,6 +28,28 @@ export default function SuccessModal(props: {
 }) {
   const score = computeScoreFromWordList(props.words);
   const improveYourScore = (score < 100) ? improveScoreHint() : null;
+
+  const historyObj = getHistory() || {};
+  const history = Object.values(historyObj);
+  const numPlayed = history.length;
+  const stats = {
+    totalScore: 0,
+    eighties: 0,
+    nineties: 0,
+    hundred: 0,
+  };
+  history.map(dailyBest => {
+    const dailyScore = computeScoreFromWordList(dailyBest);
+    stats.totalScore = stats.totalScore + dailyScore;
+    if (dailyScore >= 80 && dailyScore < 90) {
+      stats.eighties = stats.eighties + 1;
+    } else if (dailyScore >= 90 && dailyScore < 99) {
+      stats.nineties = stats.nineties + 1;
+    } else if (dailyScore > 99) {
+      stats.hundred = stats.hundred + 1;
+    }
+  });
+
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose} isCentered>
         <ModalOverlay />
@@ -38,16 +61,55 @@ export default function SuccessModal(props: {
 
             <ModalBody>
                 <Grid templateColumns="1fr 1fr">
-                    <GridItem textAlign="center">
-                        <Text fontSize="2xl">Your best so far:</Text>
+                    <GridItem>
+                        <Grid templateColumns="1fr">
+                            <GridItem w="100%" h="100%" textAlign="center">
+                                <ScoreDisplay wordList={props.words} score={score} />
+                            </GridItem>
+                            <GridItem w="100%" textAlign="left">
+                                <Text textAlign="left" fontSize="xl">{props.words.join(", ")}</Text>
+                            </GridItem>
+                        </Grid>
                     </GridItem>
-                    <GridItem w="100%" h="100%" textAlign="center">
-                        <ScoreDisplay wordList={props.words} score={score} />
+                    <GridItem>
+                        <Grid templateColumns="1fr 1fr" textAlign="right">
+                            <GridItem>
+                                <Text fontSize="lg">Solves:</Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg" fontWeight="bold">{numPlayed}</Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg">Average:</Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg" fontWeight="bold">
+                                    {Math.round(stats.totalScore / numPlayed) || 0}
+                                </Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg">80-89:</Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg" fontWeight="bold">{stats.eighties}</Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg">90-99:</Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg" fontWeight="bold">{stats.nineties}</Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg">100:</Text>
+                            </GridItem>
+                            <GridItem>
+                                <Text fontSize="lg" fontWeight="bold">{stats.hundred}</Text>
+                            </GridItem>
+                        </Grid>
                     </GridItem>
-                    <GridItem colSpan={2}>
-                        <Text textAlign="left" fontSize="2xl">{props.words.join(", ")}</Text>
-                    </GridItem>
+
                     {improveYourScore}
+
                     <GridItem colSpan={2} padding={3}>
                         <Divider />
                     </GridItem>
