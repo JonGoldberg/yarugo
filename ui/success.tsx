@@ -51,7 +51,7 @@ export default function SuccessModal(props: {
   });
   const avgScoreRaw = (stats.totalScore / numPlayed) || 0;
   var avgScore: string;
-  if (avgScoreRaw > 99) {
+  if (avgScoreRaw > 90) {
     avgScore = avgScoreRaw.toFixed(1);
   } else {
     avgScore = String(Math.round(avgScoreRaw));
