@@ -3,14 +3,13 @@
  *
  * Run at the top-level with a command like:
  *
- *   build-dictionary -d lib/data/dictionary/en_US-large.txt -o lib/data/words.json -p lib/data/puzzles-out.json
+ *   build-dictionary -d data/words/officalWords/en_US-large.txt -o data/words/words.json -p data/puzzles-out.json
  *
  */
 
 const {createReadStream, createWriteStream, writeFileSync} = require("fs");
 const {createInterface} = require("readline");
 const {hideBin} = require("yargs/helpers");
-const {shuffle, shuffleString} = require("../util/letters");
 const yargs = require("yargs");
 const yarugoWords = require("../data/words/customWords.json");
 
@@ -70,6 +69,21 @@ async function processGenericDictionary(
   outputStream.close();
 
   return tracker;
+}
+
+function shuffle(array: any[]) {
+  for (var i = array.length-1; i > 0; i--) {
+    // Pick a random destination for the ith element.
+    const j = Math.floor(Math.random() * (i+1));
+
+    // Swap the two elements.
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function shuffleString(str: string) {
+  return shuffle(str.split("")).join("");
 }
 
 function writePuzzles(filename: string, puzzleMap: {[key: string]: string[]}) {
