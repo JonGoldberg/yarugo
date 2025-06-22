@@ -3,7 +3,10 @@
  *
  * Run at the top-level with a command like:
  *
- *   build-dictionary -d data/words/officalWords/en_US-large.txt -o data/words/words.json -p data/puzzles-out.json
+ *
+ *   npm install
+ *   npm run build
+ *   npm run build-dictionary -- -d data/words/officalWords/en_US-large.txt -o data/words/words.json -p data/puzzles-out.json
  *
  */
 
