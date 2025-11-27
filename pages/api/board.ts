@@ -11,14 +11,16 @@ const board: NextApiHandler = (req, res) => {
   const daysSincePuzzleIndex = Math.floor(
     (Date.parse(todayInSF) - Date.parse(currentGame.puzzleIndexDate)) / MS_PER_DAY)
 
-  const currPuzzleIndex = currentGame.puzzleIndex + daysSincePuzzleIndex;
+  const totalPuzzleCount = puzzles.length;
+  const currPuzzleIndex = (currentGame.puzzleIndex + daysSincePuzzleIndex) % totalPuzzleCount;
+  const lastPuzzleIndex = currPuzzleIndex === 0 ? totalPuzzleCount - 1 : currPuzzleIndex - 1;
 
   return res.status(200).json({
     date: todayInSF,
     board: puzzles[currPuzzleIndex][0],
     lastBoardDate: yesterdayInSF,
-    lastBoard: puzzles[currPuzzleIndex-1][0],
-    lastYarugos: puzzles[currPuzzleIndex-1][1],
+    lastBoard: puzzles[lastPuzzleIndex][0],
+    lastYarugos: puzzles[lastPuzzleIndex][1],
   });
 }
 
